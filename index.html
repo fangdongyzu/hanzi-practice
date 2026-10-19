@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f5ef" />
+    <meta
+      name="description"
+      content="Turn any traditional or simplified Chinese text into stroke-order animations, guided tracing, and handwriting practice. Free, with no sign-in."
+    />
+    <title>Ink & Order — Chinese writing practice</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./vendor/hanzi-writer.min.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#practice">Skip to practice</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Ink and Order home"
+        ><span class="brand-seal" lang="zh">墨</span
+        ><span
+          >ink <i>&</i> order<span class="brand-sub"
+            >CHINESE WRITING STUDIO</span
+          ></span
+        ></a
+      >
+      <div class="header-note">
+        <span class="status-dot"></span>A little practice, every day.
+      </div>
+      <button class="text-button" id="help-button">
+        <span aria-hidden="true">ⓘ</span> How it works
+      </button>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <div class="eyebrow">ONE CHARACTER AT A TIME</div>
+          <h1>
+            Find your flow.<br class="mobile-break" />
+            Write with intention.
+          </h1>
+          <p>
+            Your words. A clear stroke order. A little more confidence with
+            every character.
+          </p>
+        </div>
+        <div class="intro-mark" aria-hidden="true">
+          <span lang="zh">永</span><small>THE ART OF PRACTICE</small>
+        </div>
+      </section>
+      <div class="studio-layout">
+        <aside class="lesson-panel">
+          <div class="section-kicker">
+            <span class="step-number">01</span> MAKE IT YOURS
+          </div>
+          <h2>Your practice text</h2>
+          <p class="muted">
+            Paste a word, a sentence, or a whole passage to get started.
+          </p>
+          <form id="lesson-form">
+            <label for="lesson-text">Traditional or simplified Chinese</label>
+            <textarea
+              id="lesson-text"
+              lang="zh"
+              maxlength="10000"
+              spellcheck="false"
+              placeholder="在這裡貼上中文，或在这里贴上中文…"
+            >
+你好世界學習中文</textarea
+            >
+            <div class="input-meta">
+              <span>繁體 / 简体</span><span id="input-count">8 characters</span>
+            </div>
+            <p id="input-error" class="input-error" role="alert" hidden></p>
+            <button type="submit" class="button primary generate-button">
+              Create practice <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+          <div class="sample-label">OR TRY A LITTLE INSPIRATION</div>
+          <div class="sample-buttons">
+            <button data-sample="你好世界學習中文">
+              Everyday words <span>日常</span></button
+            ><button data-sample="学而时习之不亦说乎">
+              A little wisdom <span>論語</span></button
+            ><button data-sample="春眠不覺曉處處聞啼鳥">
+              A spring poem <span>春曉</span>
+            </button>
+          </div>
+          <div class="lesson-divider"></div>
+          <div class="session-heading">
+            <h3>This lesson</h3>
+            <span id="session-count">0 / 8</span>
+          </div>
+          <progress
+            id="session-progress"
+            value="0"
+            max="8"
+            aria-label="Characters practiced"
+          ></progress>
+          <p class="session-caption" id="session-caption">
+            Complete a character in Trace or Write.
+          </p>
+          <button class="text-button print-button" id="print-button">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path
+                d="M7 8V3h10v5M7 17H4V9h16v8h-3M7 14h10v7H7zM17 11h.01"
+              /></svg
+            >Print a practice sheet
+          </button>
+          <div class="saved-note">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM8 12l3 3 5-6" /></svg
+            ><span id="storage-note"
+              >Your lesson stays on this device.<br />No account. Just
+              practice.</span
+            >
+          </div>
+        </aside>
+        <section
+          class="practice-panel"
+          id="practice"
+          aria-label="Writing practice"
+        >
+          <div class="practice-top">
+            <div class="section-kicker">
+              <span class="step-number">02</span> GET INTO THE FLOW
+            </div>
+            <span class="position-label" id="position-label"
+              >CHARACTER 01 OF 08</span
+            >
+          </div>
+          <div class="mode-tabs" role="tablist" aria-label="Practice mode">
+            <button
+              id="tab-watch"
+              role="tab"
+              aria-selected="true"
+              aria-controls="mode-panel"
+              tabindex="0"
+              data-mode="watch"
+            >
+              <span class="tab-icon" aria-hidden="true">▷</span
+              ><span>Watch<small>Learn the strokes</small></span
+              ><span class="tab-index">01</span>
+            </button>
+            <button
+              id="tab-trace"
+              role="tab"
+              aria-selected="false"
+              aria-controls="mode-panel"
+              tabindex="-1"
+              data-mode="trace"
+            >
+              <span class="tab-icon" aria-hidden="true">✎</span
+              ><span>Trace<small>Follow the guide</small></span
+              ><span class="tab-index">02</span>
+            </button>
+            <button
+              id="tab-write"
+              role="tab"
+              aria-selected="false"
+              aria-controls="mode-panel"
+              tabindex="-1"
+              data-mode="write"
+            >
+              <span class="tab-icon" aria-hidden="true">〰</span
+              ><span>Write<small>Trust your memory</small></span
+              ><span class="tab-index">03</span>
+            </button>
+          </div>
+          <div id="mode-panel" role="tabpanel" aria-labelledby="tab-watch">
+            <div class="practice-workspace">
+              <div class="canvas-column">
+                <div
+                  class="writing-board"
+                  id="writing-board"
+                  role="img"
+                  aria-label="Stroke order animation for 你"
+                >
+                  <svg
+                    class="guide-grid"
+                    viewBox="0 0 360 360"
+                    aria-hidden="true"
+                  >
+                    <path d="M180 0v360M0 180h360M0 0l360 360M360 0 0 360" />
+                  </svg>
+                  <div id="writer"></div>
+                  <div id="board-overlay" class="board-overlay" role="status">
+                    Preparing your character…
+                  </div>
+                  <span class="board-corner top-left"></span
+                  ><span class="board-corner top-right"></span
+                  ><span class="board-corner bottom-left"></span
+                  ><span class="board-corner bottom-right"></span>
+                </div>
+                <div class="board-caption">
+                  <span class="status-dot"></span
+                  ><span id="board-caption"
+                    >Watch how each stroke connects.</span
+                  >
+                </div>
+              </div>
+              <div class="character-details">
+                <div class="detail-eyebrow">ON YOUR PAGE</div>
+                <div class="character-heading">
+                  <span id="current-character" lang="zh">你</span
+                  ><span class="stroke-badge" id="stroke-count">7 strokes</span>
+                </div>
+                <h2 id="mode-title">Start with the strokes.</h2>
+                <p id="mode-description">
+                  Take a moment to watch. Each stroke has a place, a direction,
+                  and an order.
+                </p>
+                <div class="watch-controls" id="watch-controls">
+                  <button class="button primary" id="play-button" disabled>
+                    <span aria-hidden="true">▷</span> Play stroke order
+                  </button>
+                  <div class="speed-control">
+                    <label for="speed">Animation speed</label
+                    ><select id="speed">
+                      <option value="0.6">Slow · 0.6×</option>
+                      <option value="1" selected>Normal · 1×</option>
+                      <option value="1.8">Fast · 1.8×</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="quiz-controls" id="quiz-controls" hidden>
+                  <div class="quiz-stats">
+                    <div>
+                      <strong id="accepted-count">0 / 7</strong
+                      ><span>strokes written</span>
+                    </div>
+                    <div>
+                      <strong id="mistake-count">0</strong
+                      ><span>try-agains</span>
+                    </div>
+                  </div>
+                  <progress
+                    id="stroke-progress"
+                    max="7"
+                    value="0"
+                    aria-label="Accepted strokes"
+                  ></progress
+                  ><button class="button secondary" id="restart-button">
+                    ↺ Start again
+                  </button>
+                </div>
+                <div
+                  class="feedback"
+                  id="feedback"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Press play, then give tracing a try.
+                </div>
+                <button
+                  class="text-button retry-button"
+                  id="retry-button"
+                  hidden
+                >
+                  ↻ Retry loading this character
+                </button>
+              </div>
+            </div>
+            <div class="stroke-section" id="stroke-section">
+              <div class="subsection-heading">
+                <h3>Stroke by stroke</h3>
+                <span>SELECT A STEP TO WATCH</span>
+              </div>
+              <div
+                class="stroke-strip"
+                id="stroke-strip"
+                aria-label="Stroke sequence"
+              ></div>
+            </div>
+            <div class="memory-note" id="memory-note" hidden>
+              <span aria-hidden="true">✧</span> A blank page, a remembered
+              rhythm. No outlines or hints; stroke order and direction still
+              count.
+            </div>
+          </div>
+          <div class="character-navigation">
+            <button
+              class="nav-button"
+              id="previous-button"
+              aria-label="Previous character"
+            >
+              ← <span>Previous</span>
+            </button>
+            <div
+              id="character-list"
+              class="character-list"
+              aria-label="Lesson characters"
+            ></div>
+            <button
+              class="nav-button"
+              id="next-button"
+              aria-label="Next character"
+            >
+              <span>Next</span> →
+            </button>
+          </div>
+        </section>
+      </div>
+      <div class="practice-tip">
+        <span class="tip-mark" aria-hidden="true">筆</span>
+        <p>
+          <strong>Slow is a good place to start.</strong> Watch the movement,
+          trace the shape, then let your hand remember.
+        </p>
+        <span class="tip-device">FINGER · STYLUS · MOUSE</span>
+      </div>
+    </main>
+    <footer>
+      <span>Made for the quiet joy of learning.</span
+      ><span
+        >Powered by
+        <a href="https://hanziwriter.org/" target="_blank" rel="noopener"
+          >Hanzi Writer</a
+        >
+        &
+        <a
+          href="https://github.com/skishore/makemeahanzi"
+          target="_blank"
+          rel="noopener"
+          >Make Me a Hanzi</a
+        ></span
+      >
+    </footer>
+    <dialog id="help-dialog">
+      <button
+        class="dialog-close text-button"
+        id="close-help"
+        aria-label="Close instructions"
+      >
+        ✕
+      </button>
+      <div class="eyebrow">WELCOME TO YOUR WRITING STUDIO</div>
+      <h2>A small ritual.<br />A lasting skill.</h2>
+      <ol>
+        <li>
+          <strong>Bring your own words.</strong> Paste up to 200 Chinese
+          characters. Punctuation and other text are ignored; repeated
+          characters stay in your lesson.
+        </li>
+        <li>
+          <strong>Watch.</strong> Play the stroke animation or select a numbered
+          step to see a single stroke.
+        </li>
+        <li>
+          <strong>Trace.</strong> Follow the pale outline with a finger, stylus,
+          or mouse. Hints appear after two mistakes.
+        </li>
+        <li>
+          <strong>Write.</strong> Start on a blank grid. No outlines, automatic
+          hints, or stroke previews. Only the correct next stroke, drawn in the
+          right direction, is accepted.
+        </li>
+      </ol>
+      <p>
+        Progress is saved locally for Trace and Write separately. Select a
+        character to revisit it. Printable sheets provide paper practice; stroke
+        order can only be checked on screen.
+      </p>
+      <p class="muted">
+        Character shapes and stroke orders follow the Make Me a Hanzi dataset
+        and can differ from regional teaching standards. Some rare characters
+        are unavailable. New character data requires an internet connection.
+      </p>
+      <button class="button primary" id="start-practicing">
+        Let’s practice ↗
+      </button>
+    </dialog>
+    <section id="print-area" aria-label="Printable practice sheet"></section>
+  </body>
+</html>
