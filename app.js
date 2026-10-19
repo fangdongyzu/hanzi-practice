@@ -43,9 +43,8 @@
       feedback: "Draw the first stroke. A hint appears after two misses.",
     },
     write: {
-      title: "Make it your own.",
-      description:
-        "Write the character from memory. The page is blank; the stroke order still matters.",
+      title: "",
+      description: "",
       caption: "No outline. No hints. Just you and the page.",
       feedback: "Draw the first stroke in the right direction.",
     },
@@ -241,6 +240,7 @@
     });
     $("mode-panel").setAttribute("aria-labelledby", `tab-${state.mode}`);
     $("mode-title").textContent = mode.title;
+    $("mode-title").hidden = !mode.title;
     $("mode-description").textContent = mode.description;
     $("mode-description").hidden = !mode.description;
     $("board-caption").textContent = mode.caption;
