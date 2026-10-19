@@ -444,6 +444,7 @@
       state.writer.resumeAnimation();
       state.playing = true;
       updatePlayButton();
+      setFeedback("Follow the movement, one stroke at a time.");
       return;
     }
     // Pausing uses a separate marker so the same animation resumes without a reset.
