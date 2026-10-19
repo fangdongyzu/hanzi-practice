@@ -10,9 +10,10 @@
     />
     <title>Ink & Order — Chinese writing practice</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css?v=dac7cf87811e" />
+    <link rel="stylesheet" href="./styles.css?v=b33100ad75cb" />
     <script defer src="./vendor/hanzi-writer.min.js"></script>
-    <script defer src="./app.js?v=4a0978a00edd"></script>
+    <script defer src="./dictionary.js?v=8a337b092d1c"></script>
+    <script defer src="./app.js?v=990e4b467fda"></script>
   </head>
   <body>
     <a class="skip-link" href="#practice">Skip to practice</a>
@@ -67,8 +68,7 @@
               spellcheck="false"
               placeholder="在這裡貼上中文，或在这里贴上中文…"
             >
-你好世界學習中文</textarea
-            >
+你好世界學習中文</textarea>
             <div class="input-meta">
               <span>繁體 / 简体</span><span id="input-count">8 characters</span>
             </div>
@@ -220,7 +220,13 @@
                   <span id="current-character" lang="zh">你</span
                   ><span class="stroke-badge" id="stroke-count">7 strokes</span>
                 </div>
-                <h2 id="mode-title">Start with the strokes.</h2>
+                <section
+                  id="character-info"
+                  class="character-info"
+                  aria-label="Pinyin and Vietnamese meaning"
+                  aria-live="polite"
+                ></section>
+                <h2 id="mode-title" hidden></h2>
                 <p id="mode-description" hidden></p>
                 <div class="watch-controls" id="watch-controls">
                   <button class="button primary" id="play-button" disabled>

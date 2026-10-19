@@ -30,7 +30,7 @@
   };
   const modes = {
     watch: {
-      title: "Start with the strokes.",
+      title: "",
       description: "",
       caption: "Watch how each stroke connects.",
       feedback: "Press play, then give tracing a try.",
@@ -94,7 +94,7 @@
     const record = state.completed[completionKey(index)];
     return Boolean(
       record &&
-        (mode === "watch" ? record.trace || record.write : record[mode]),
+      (mode === "watch" ? record.trace || record.write : record[mode]),
     );
   }
   function renderNavigation() {
@@ -336,6 +336,76 @@
           ? "▷ Replay stroke order"
           : "▷ Play stroke order";
   }
+  async function showCharacterInfo(char, generation) {
+    const container = $("character-info");
+    container.textContent = "Loading pinyin & meaning…";
+    const element = (tag, className, text) => {
+      const node = document.createElement(tag);
+      node.className = className;
+      node.textContent = text;
+      return node;
+    };
+    try {
+      const entries = await window.HanziDictionary.lookupCharacter(char);
+      if (generation !== state.generation) return;
+      container.replaceChildren();
+      if (!entries.length) {
+        container.textContent = "No dictionary entry for this character yet.";
+        return;
+      }
+      const row = (entry, full = false) => {
+        const line = element("div", "character-gloss", "");
+        const pinyin = element("strong", "", entry.pinyin);
+        pinyin.lang = "zh-Latn";
+        const meaning = element(
+          "span",
+          "",
+          full
+            ? entry.meanings.join("; ")
+            : [
+                ...new Set(
+                  entry.meanings.map((text) => text.split(" (")[0].trim()),
+                ),
+              ]
+                .slice(0, 2)
+                .join("; "),
+        );
+        meaning.lang = "vi";
+        line.append(pinyin, meaning);
+        return line;
+      };
+      container.append(
+        element("div", "dictionary-label", "Pinyin · Tiếng Việt"),
+        row(entries[0]),
+      );
+      const details = element("details", "dictionary-details", "");
+      details.append(element("summary", "", "More readings & meanings"));
+      entries.forEach((entry) => details.append(row(entry, true)));
+      const source = element(
+        "small",
+        "dictionary-source",
+        "Dictionary meanings vary by context. ",
+      );
+      const attribution = element("a", "", "CVDICT · Phong Phan");
+      attribution.href = "https://github.com/kemonra/CVDICT";
+      const license = element("a", "", "CC BY-SA 4.0");
+      license.href = "./data/character-dictionary/NOTICE.txt";
+      for (const link of [attribution, license]) {
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      }
+      source.append(attribution, " · ", license);
+      details.append(source);
+      container.append(details);
+    } catch {
+      if (generation !== state.generation) return;
+      container.textContent = "Pinyin & meaning could not be loaded. ";
+      const retry = element("button", "dictionary-retry", "Retry");
+      retry.type = "button";
+      retry.onclick = () => showCharacterInfo(char, generation);
+      container.append(retry);
+    }
+  }
   async function showCharacter() {
     stopWriter();
     const generation = state.generation;
@@ -346,6 +416,7 @@
     renderNavigation();
     bringCharacterIntoView();
     $("current-character").textContent = char;
+    showCharacterInfo(char, generation);
     $("stroke-count").textContent = "Loading…";
     $("stroke-strip").replaceChildren();
     $("board-overlay").textContent = "Preparing your character…";

@@ -577,6 +577,55 @@ progress::-moz-progress-bar {
   color: var(--muted);
   white-space: nowrap;
 }
+.character-info {
+  min-width: 0;
+  grid-column: 1;
+  margin: 0 0 18px;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.dictionary-label {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+.character-gloss {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  overflow-wrap: anywhere;
+}
+.character-gloss strong {
+  font-size: 16px;
+  font-weight: 600;
+}
+.dictionary-details {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.dictionary-details summary {
+  cursor: pointer;
+}
+.dictionary-details .character-gloss {
+  color: var(--ink);
+  font-size: 12px;
+  padding-top: 9px;
+}
+.dictionary-source {
+  display: block;
+  margin-top: 10px;
+}
+.dictionary-retry {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .character-details h2 {
   font:
     650 19px/1.4 "Manrope",
