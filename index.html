@@ -10,7 +10,7 @@
     />
     <title>Ink & Order — Chinese writing practice</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=d19925554fca" />
     <script defer src="./vendor/hanzi-writer.min.js"></script>
     <script defer src="./app.js?v=f478b5c9c810"></script>
   </head>
@@ -199,6 +199,30 @@
                     >Watch how each stroke connects.</span
                   >
                 </div>
+                <nav
+                  class="character-navigation"
+                  aria-label="Character navigation"
+                >
+                  <button
+                    class="nav-button"
+                    id="previous-button"
+                    aria-label="Previous character"
+                  >
+                    ← <span>Previous</span>
+                  </button>
+                  <div
+                    id="character-list"
+                    class="character-list"
+                    aria-label="Lesson characters"
+                  ></div>
+                  <button
+                    class="nav-button"
+                    id="next-button"
+                    aria-label="Next character"
+                  >
+                    <span>Next</span> →
+                  </button>
+                </nav>
               </div>
               <div class="character-details">
                 <div class="detail-eyebrow">ON YOUR PAGE</div>
@@ -275,27 +299,6 @@
               rhythm. No outlines or hints; stroke order and direction still
               count.
             </div>
-          </div>
-          <div class="character-navigation">
-            <button
-              class="nav-button"
-              id="previous-button"
-              aria-label="Previous character"
-            >
-              ← <span>Previous</span>
-            </button>
-            <div
-              id="character-list"
-              class="character-list"
-              aria-label="Lesson characters"
-            ></div>
-            <button
-              class="nav-button"
-              id="next-button"
-              aria-label="Next character"
-            >
-              <span>Next</span> →
-            </button>
           </div>
         </section>
       </div>

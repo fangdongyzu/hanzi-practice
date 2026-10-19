@@ -751,11 +751,15 @@ select {
 }
 .character-navigation {
   display: flex;
-  gap: 12px;
+  gap: 5px;
   align-items: center;
-  border-top: 1px solid var(--line);
-  padding: 17px 24px;
-  background: #fdfdf8;
+  width: 100%;
+  min-width: 0;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 6px 4px;
+  background: #f3f5ed;
 }
 .nav-button {
   display: flex;
@@ -767,7 +771,12 @@ select {
   font-size: 15px;
 }
 .nav-button span {
-  font-size: 9px;
+  display: none;
+}
+.character-navigation .nav-button {
+  flex: 0 0 36px;
+  min-height: 44px;
+  justify-content: center;
 }
 .character-list {
   display: flex;
@@ -967,13 +976,6 @@ dialog .button {
   .speed-control {
     flex-wrap: wrap;
     gap: 0;
-  }
-  .character-navigation {
-    padding: 15px 18px;
-    gap: 8px;
-  }
-  .nav-button span {
-    display: none;
   }
   footer {
     padding: 0 32px 25px;
@@ -1235,9 +1237,6 @@ dialog .button {
   .stroke-step svg {
     width: 49px;
     height: 49px;
-  }
-  .character-navigation {
-    padding: 13px 14px;
   }
   .character-list {
     gap: 5px;
