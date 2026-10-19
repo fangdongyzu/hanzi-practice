@@ -31,8 +31,7 @@
   const modes = {
     watch: {
       title: "Start with the strokes.",
-      description:
-        "Take a moment to watch. Each stroke has a place, a direction, and an order.",
+      description: "",
       caption: "Watch how each stroke connects.",
       feedback: "Press play, then give tracing a try.",
     },
@@ -243,6 +242,7 @@
     $("mode-panel").setAttribute("aria-labelledby", `tab-${state.mode}`);
     $("mode-title").textContent = mode.title;
     $("mode-description").textContent = mode.description;
+    $("mode-description").hidden = !mode.description;
     $("board-caption").textContent = mode.caption;
     $("watch-controls").hidden = state.mode !== "watch";
     $("quiz-controls").hidden = state.mode === "watch";
