@@ -310,35 +310,6 @@ textarea::placeholder {
 .generate-button > span {
   font-size: 19px;
 }
-.sample-label {
-  font-size: 8px;
-  letter-spacing: 1.2px;
-  color: var(--muted);
-  margin: 25px 0 11px;
-}
-.sample-buttons {
-  display: grid;
-  gap: 6px;
-}
-.sample-buttons button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 11px;
-  border: 1px solid #dce0d2;
-  border-radius: 5px;
-  background: transparent;
-  font-size: 10px;
-  text-align: left;
-}
-.sample-buttons button:hover {
-  background: var(--card);
-  border-color: #9cad99;
-}
-.sample-buttons span {
-  font: 13px var(--serif);
-  color: #708069;
-}
 .lesson-divider {
   height: 1px;
   background: #daddd0;
@@ -1123,23 +1094,6 @@ dialog .button {
   .lesson-panel textarea {
     min-height: 105px;
     max-height: 240px;
-  }
-  .sample-label {
-    margin-top: 18px;
-  }
-  .sample-buttons {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-  }
-  .sample-buttons button {
-    flex-direction: column;
-    gap: 7px;
-    font-size: 9px;
-    padding: 10px 5px;
-    align-items: flex-start;
-  }
-  .sample-buttons span {
-    font-size: 15px;
   }
   .lesson-divider {
     margin: 19px 0 16px;

@@ -615,13 +615,6 @@
     $("input-error").hidden = true;
     $("lesson-text").removeAttribute("aria-invalid");
   });
-  document.querySelectorAll("[data-sample]").forEach((button) =>
-    button.addEventListener("click", () => {
-      $("lesson-text").value = button.dataset.sample;
-      updateInputCount();
-      createLesson(button.dataset.sample);
-    }),
-  );
   document.querySelectorAll("[data-mode]").forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.mode));
     button.addEventListener("keydown", (event) => {
