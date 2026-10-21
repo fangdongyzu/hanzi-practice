@@ -1038,7 +1038,6 @@ dialog .button {
     grid-column: 1;
     margin-bottom: 0;
   }
-  .watch-controls,
   .quiz-controls {
     grid-column: 2;
     grid-row: 1/5;

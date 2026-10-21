@@ -189,6 +189,19 @@
                     >Watch how each stroke connects.</span
                   >
                 </div>
+                <div class="watch-controls" id="watch-controls">
+                  <button class="button primary" id="play-button" disabled>
+                    <span aria-hidden="true">▷</span> Play stroke order
+                  </button>
+                  <div class="speed-control">
+                    <label for="speed">Animation speed</label
+                    ><select id="speed">
+                      <option value="0.6">Slow · 0.6×</option>
+                      <option value="1" selected>Normal · 1×</option>
+                      <option value="1.8">Fast · 1.8×</option>
+                    </select>
+                  </div>
+                </div>
                 <nav
                   class="character-navigation"
                   aria-label="Character navigation"
@@ -228,19 +241,6 @@
                 ></section>
                 <h2 id="mode-title" hidden></h2>
                 <p id="mode-description" hidden></p>
-                <div class="watch-controls" id="watch-controls">
-                  <button class="button primary" id="play-button" disabled>
-                    <span aria-hidden="true">▷</span> Play stroke order
-                  </button>
-                  <div class="speed-control">
-                    <label for="speed">Animation speed</label
-                    ><select id="speed">
-                      <option value="0.6">Slow · 0.6×</option>
-                      <option value="1" selected>Normal · 1×</option>
-                      <option value="1.8">Fast · 1.8×</option>
-                    </select>
-                  </div>
-                </div>
                 <div class="quiz-controls" id="quiz-controls" hidden>
                   <div class="quiz-stats">
                     <div>
