@@ -246,6 +246,7 @@
     $("board-caption").textContent = mode.caption;
     $("watch-controls").hidden = state.mode !== "watch";
     $("quiz-controls").hidden = state.mode === "watch";
+    $("restart-button").hidden = state.mode === "watch";
     $("stroke-section").hidden = state.mode === "write";
     $("memory-note").hidden = state.mode !== "write";
     $("writing-board").setAttribute(

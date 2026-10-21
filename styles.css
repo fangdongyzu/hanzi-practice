@@ -692,7 +692,7 @@ select {
   display: block;
   margin-top: 3px;
 }
-.quiz-controls .button {
+.restart-button {
   margin-top: 15px;
   width: 100%;
 }
@@ -1213,7 +1213,8 @@ dialog .button {
   #current-character {
     font-size: 37px;
   }
-  .character-details .button {
+  .character-details .button,
+  .restart-button {
     font-size: 10px;
     padding: 11px 9px;
     min-height: 44px;
