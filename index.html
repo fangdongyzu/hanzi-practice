@@ -10,10 +10,10 @@
     />
     <title>Ink & Order — Chinese writing practice</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css?v=b33100ad75cb" />
+    <link rel="stylesheet" href="./styles.css?v=248d32f53982" />
     <script defer src="./vendor/hanzi-writer.min.js"></script>
     <script defer src="./dictionary.js?v=8a337b092d1c"></script>
-    <script defer src="./app.js?v=990e4b467fda"></script>
+    <script defer src="./app.js?v=48c506617a51"></script>
   </head>
   <body>
     <a class="skip-link" href="#practice">Skip to practice</a>
@@ -59,33 +59,29 @@
           <p class="muted">
             Paste a word, a sentence, or a whole passage to get started.
           </p>
-          <form id="lesson-form">
+          <div class="lesson-input">
             <label for="lesson-text">Traditional or simplified Chinese</label>
             <textarea
               id="lesson-text"
               lang="zh"
               maxlength="10000"
               spellcheck="false"
-              placeholder="在這裡貼上中文，或在这里贴上中文…"
-            >
-你好世界學習中文</textarea>
+              placeholder="在這裡貼上中文"
+            ></textarea>
             <div class="input-meta">
-              <span>繁體 / 简体</span><span id="input-count">8 characters</span>
+              <span>繁體 / 简体</span><span id="input-count">0 characters</span>
             </div>
             <p id="input-error" class="input-error" role="alert" hidden></p>
-            <button type="submit" class="button primary generate-button">
-              Create practice <span aria-hidden="true">↗</span>
-            </button>
-          </form>
+          </div>
           <div class="lesson-divider"></div>
           <div class="session-heading">
             <h3>This lesson</h3>
-            <span id="session-count">0 / 8</span>
+            <span id="session-count">0 / 0</span>
           </div>
           <progress
             id="session-progress"
             value="0"
-            max="8"
+            max="1"
             aria-label="Characters practiced"
           ></progress>
           <p class="session-caption" id="session-caption">
@@ -117,7 +113,7 @@
               <span class="step-number">02</span> GET INTO THE FLOW
             </div>
             <span class="position-label" id="position-label"
-              >CHARACTER 01 OF 08</span
+              >NO CHARACTERS YET</span
             >
           </div>
           <div class="mode-tabs" role="tablist" aria-label="Practice mode">

@@ -303,13 +303,6 @@ textarea::placeholder {
 .secondary:hover {
   background: var(--pale);
 }
-.generate-button {
-  width: 100%;
-  justify-content: space-between;
-}
-.generate-button > span {
-  font-size: 19px;
-}
 .lesson-divider {
   height: 1px;
   background: #daddd0;
@@ -464,6 +457,20 @@ progress::-moz-progress-bar {
   grid-template-columns: minmax(0, 1.25fr) minmax(190px, 1fr);
   gap: 28px;
   align-items: center;
+}
+#practice[data-empty="true"] .practice-workspace {
+  grid-template-columns: minmax(0, 420px);
+  justify-content: center;
+}
+#practice[data-empty="true"] .mode-tabs,
+#practice[data-empty="true"] .character-details,
+#practice[data-empty="true"] .board-caption,
+#practice[data-empty="true"] .watch-controls,
+#practice[data-empty="true"] .restart-button,
+#practice[data-empty="true"] .character-navigation,
+#practice[data-empty="true"] .stroke-section,
+#practice[data-empty="true"] .memory-note {
+  display: none;
 }
 .canvas-column {
   min-width: 0;

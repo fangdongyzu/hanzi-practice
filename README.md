@@ -2,7 +2,7 @@
 
 A responsive, static Chinese handwriting studio for GitHub Pages.
 
-- Paste up to 200 traditional or simplified Chinese characters, including paragraphs. Punctuation, spaces, emoji, and Latin text are ignored. Repeated characters remain in reading order.
+- Paste or type up to 200 traditional or simplified Chinese characters, including paragraphs. The character navigation updates immediately, with no Create practice step. Punctuation, spaces, emoji, and Latin text are ignored. Repeated characters remain in reading order.
 - **Watch:** animate stroke order, pause/resume, change speed, or select a single stroke.
 - **Trace:** follow an outline with a finger, stylus, or mouse. The next stroke must match its shape, direction, and order. Hints appear after two misses.
 - **Write:** start on a blank grid with no outlines, stroke previews, or automatic hints. The correct next stroke and direction are still required. Strokes are never automatically accepted after mistakes.

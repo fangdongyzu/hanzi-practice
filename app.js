@@ -115,9 +115,11 @@
     });
     $("character-list").replaceChildren(fragment);
     $("previous-button").disabled = state.index === 0;
-    $("next-button").disabled = state.index === state.characters.length - 1;
+    $("next-button").disabled = state.index >= state.characters.length - 1;
     $("position-label").textContent =
-      `CHARACTER ${String(state.index + 1).padStart(2, "0")} OF ${String(state.characters.length).padStart(2, "0")}`;
+      state.characters.length
+        ? `CHARACTER ${String(state.index + 1).padStart(2, "0")} OF ${String(state.characters.length).padStart(2, "0")}`
+        : "NO CHARACTERS YET";
     updateSessionProgress();
   }
   function updateSessionProgress() {
@@ -126,14 +128,16 @@
     ).length;
     $("session-count").textContent =
       `${completed} / ${state.characters.length}`;
-    $("session-progress").max = state.characters.length;
+    $("session-progress").max = state.characters.length || 1;
     $("session-progress").value = completed;
     $("session-caption").textContent =
-      completed === state.characters.length
-        ? "Beautiful work. Every character practiced."
-        : state.mode === "watch"
-          ? "Complete a character in Trace or Write."
-          : `${state.mode === "trace" ? "Traced" : "Written from memory"} · progress saved on this device.`;
+      !state.characters.length
+        ? "Paste Chinese characters to begin."
+        : completed === state.characters.length
+          ? "Beautiful work. Every character practiced."
+          : state.mode === "watch"
+            ? "Complete a character in Trace or Write."
+            : `${state.mode === "trace" ? "Traced" : "Written from memory"} · progress saved on this device.`;
   }
   function bringCharacterIntoView() {
     // Scroll only the horizontal strip; never pull the whole page away from the writing board.
@@ -255,7 +259,9 @@
     );
     $("writing-board").setAttribute(
       "aria-label",
-      `${state.mode === "watch" ? "Stroke order animation" : "Handwriting area"} for ${state.characters[state.index]}`,
+      state.characters.length
+        ? `${state.mode === "watch" ? "Stroke order animation" : "Handwriting area"} for ${state.characters[state.index]}`
+        : "Writing area. Paste Chinese characters to begin.",
     );
     setFeedback(mode.feedback);
   }
@@ -413,20 +419,30 @@
     const char = state.characters[state.index];
     state.loading = true;
     state.step = null;
+    $("practice").dataset.empty = String(!char);
     configureMode();
     renderNavigation();
     bringCharacterIntoView();
     $("current-character").textContent = char;
-    showCharacterInfo(char, generation);
-    $("stroke-count").textContent = "Loading…";
+    if (char) showCharacterInfo(char, generation);
+    else $("character-info").replaceChildren();
+    $("stroke-count").textContent = char ? "Loading…" : "";
     $("stroke-strip").replaceChildren();
-    $("board-overlay").textContent = "Preparing your character…";
+    $("board-overlay").textContent = char
+      ? "Preparing your character…"
+      : "Paste Chinese characters to begin.";
     $("board-overlay").hidden = false;
     $("retry-button").hidden = true;
     $("play-button").disabled = true;
     $("restart-button").disabled = true;
+    $("print-button").disabled = !char;
     updatePlayButton();
     resetQuizStats();
+    if (!char) {
+      state.loading = false;
+      save();
+      return;
+    }
     try {
       if (!window.HanziWriter) throw new Error("Writing library unavailable");
       const data = await loadCharacter(char);
@@ -539,32 +555,44 @@
     state.mode = mode;
     showCharacter();
   }
-  function createLesson(text) {
-    const characters = chineseCharacters(text);
-    if (!characters.length || characters.length > MAX_CHARACTERS) {
-      $("input-error").textContent = characters.length
-        ? `Please use up to ${MAX_CHARACTERS} Chinese characters per lesson. Your text has ${characters.length}.`
-        : "Add at least one Chinese character to create a practice lesson.";
-      $("input-error").hidden = false;
-      $("lesson-text").setAttribute("aria-invalid", "true");
-      return;
-    }
-    $("input-error").hidden = true;
-    $("lesson-text").removeAttribute("aria-invalid");
-    if (characters.join("") !== state.characters.join("")) {
-      state.completed = {};
+  function updateLesson() {
+    const input = $("lesson-text");
+    const allCharacters = chineseCharacters(input.value);
+    const characters = allCharacters.slice(0, MAX_CHARACTERS);
+    const tooLong = allCharacters.length > MAX_CHARACTERS;
+    const missingChinese = input.value.length > 0 && !allCharacters.length;
+    $("input-error").hidden = !tooLong && !missingChinese;
+    $("input-error").textContent = tooLong
+      ? `Only the first ${MAX_CHARACTERS} Chinese characters are shown. Remove ${allCharacters.length - MAX_CHARACTERS} to include them all.`
+      : missingChinese
+        ? "Enter at least one Chinese character to begin."
+        : "";
+    if (tooLong || missingChinese) input.setAttribute("aria-invalid", "true");
+    else input.removeAttribute("aria-invalid");
+    if (characters.join("") === state.characters.join("")) return;
+
+    const previousIndex = state.index;
+    const previousCharacter = state.characters[state.index];
+    if (characters[state.index] !== state.characters[state.index])
       state.index = 0;
-    }
+    state.completed = Object.fromEntries(
+      Object.entries(state.completed).filter(([key]) => {
+        const separator = key.indexOf(":");
+        const index = Number(key.slice(0, separator));
+        return separator > 0 && key.slice(separator + 1) === characters[index];
+      }),
+    );
     state.characters = characters;
     save();
-    showCharacter();
-    if (matchMedia("(max-width: 650px)").matches)
-      $("practice").scrollIntoView({
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-        block: "start",
-      });
+    if (
+      state.index !== previousIndex ||
+      state.characters[state.index] !== previousCharacter
+    ) {
+      showCharacter();
+    } else {
+      renderNavigation();
+      bringCharacterIntoView();
+    }
   }
   async function watchStroke(index) {
     if (!state.writer || !state.data || state.mode === "write") return;
@@ -678,14 +706,9 @@
     button.textContent = "Print a practice sheet";
     window.print();
   }
-  $("lesson-form").addEventListener("submit", (event) => {
-    event.preventDefault();
-    createLesson($("lesson-text").value);
-  });
   $("lesson-text").addEventListener("input", () => {
     updateInputCount();
-    $("input-error").hidden = true;
-    $("lesson-text").removeAttribute("aria-invalid");
+    updateLesson();
   });
   document.querySelectorAll("[data-mode]").forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.mode));
@@ -776,13 +799,13 @@
   });
   observer.observe($("writing-board"));
   const saved = readSaved();
-  const savedCharacters = chineseCharacters(saved?.text || SAMPLE).slice(
-    0,
-    MAX_CHARACTERS,
-  );
-  state.characters = savedCharacters.length
-    ? savedCharacters
-    : Array.from(SAMPLE);
+  // Earlier versions saved the starter sample on first load. Treat that
+  // untouched sample as an empty lesson, while keeping a practiced one.
+  const untouchedSample =
+    saved?.text === SAMPLE && !Object.keys(saved.completed || {}).length;
+  state.characters = chineseCharacters(
+    untouchedSample ? "" : saved?.text || "",
+  ).slice(0, MAX_CHARACTERS);
   state.index = Number.isInteger(saved?.index)
     ? Math.max(0, Math.min(saved.index, state.characters.length - 1))
     : 0;
