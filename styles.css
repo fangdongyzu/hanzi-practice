@@ -277,6 +277,14 @@ textarea::placeholder {
 .input-meta > span:first-child {
   letter-spacing: 1px;
 }
+.clear-text-button {
+  width: 100%;
+  min-height: 40px;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 11px;
+}
 .button {
   display: flex;
   align-items: center;

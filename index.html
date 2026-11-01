@@ -10,10 +10,10 @@
     />
     <title>Ink & Order — Chinese writing practice</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css?v=248d32f53982" />
+    <link rel="stylesheet" href="./styles.css?v=8e602062f58d" />
     <script defer src="./vendor/hanzi-writer.min.js"></script>
     <script defer src="./dictionary.js?v=8a337b092d1c"></script>
-    <script defer src="./app.js?v=48c506617a51"></script>
+    <script defer src="./app.js?v=fcade179dfe8"></script>
   </head>
   <body>
     <a class="skip-link" href="#practice">Skip to practice</a>
@@ -57,7 +57,7 @@
           </div>
           <h2>Your practice text</h2>
           <p class="muted">
-            Paste a word, a sentence, or a whole passage to get started.
+            Paste or type a word, a sentence, or a whole passage to get started.
           </p>
           <div class="lesson-input">
             <label for="lesson-text">Traditional or simplified Chinese</label>
@@ -66,12 +66,20 @@
               lang="zh"
               maxlength="10000"
               spellcheck="false"
-              placeholder="在這裡貼上中文"
+              placeholder="在這裡貼/打上中文"
             ></textarea>
             <div class="input-meta">
               <span>繁體 / 简体</span><span id="input-count">0 characters</span>
             </div>
             <p id="input-error" class="input-error" role="alert" hidden></p>
+            <button
+              type="button"
+              class="text-button clear-text-button"
+              id="clear-text-button"
+              disabled
+            >
+              ✕ Clear all text
+            </button>
           </div>
           <div class="lesson-divider"></div>
           <div class="session-heading">
@@ -335,7 +343,7 @@
       <h2>A small ritual.<br />A lasting skill.</h2>
       <ol>
         <li>
-          <strong>Bring your own words.</strong> Paste up to 200 Chinese
+          <strong>Bring your own words.</strong> Paste or type up to 200 Chinese
           characters. Punctuation and other text are ignored; repeated
           characters stay in your lesson.
         </li>

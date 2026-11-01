@@ -83,9 +83,11 @@
     }
   }
   function updateInputCount() {
-    const count = chineseCharacters($("lesson-text").value).length;
+    const text = $("lesson-text").value;
+    const count = chineseCharacters(text).length;
     $("input-count").textContent =
       `${count} character${count === 1 ? "" : "s"}`;
+    $("clear-text-button").disabled = !text.length;
   }
   function completionKey(index = state.index) {
     return `${index}:${state.characters[index]}`;
@@ -710,6 +712,13 @@
     updateInputCount();
     updateLesson();
   });
+  $("clear-text-button").addEventListener("click", () => {
+    const input = $("lesson-text");
+    input.value = "";
+    updateInputCount();
+    updateLesson();
+    input.focus();
+  });
   document.querySelectorAll("[data-mode]").forEach((button) => {
     button.addEventListener("click", () => setMode(button.dataset.mode));
     button.addEventListener("keydown", (event) => {
@@ -765,6 +774,10 @@
     showCharacter();
   });
   $("restart-button").addEventListener("click", () => {
+    // Browser text restoration can change the textarea without firing input.
+    // Sync the visible lesson before restarting the current character.
+    updateInputCount();
+    updateLesson();
     startQuiz();
     setFeedback(modes[state.mode].feedback);
   });
